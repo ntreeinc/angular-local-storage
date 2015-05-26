@@ -421,6 +421,23 @@ describe('localStorageService', function() {
     expect(results).toEqual(expectation);
   }));
 
+  it('should $watch with deep comparison for objects in nested scope properties', inject(function($rootScope, localStorageService) {
+    var mocks = [{}, [], 'string', 90, false];
+    var expectation = [true, true, false, false, false];
+    var results = [];
+
+    spyOn($rootScope, '$watch').andCallFake(function(key, func, eq) {
+      results.push(eq);
+    });
+
+    mocks.forEach(function(elm, i) {
+      localStorageService.set('mock' + i, elm);
+      localStorageService.bind($rootScope, 'nested.mock' + i, null, 'mock' +i);
+    });
+
+    expect(results).toEqual(expectation);
+  }));
+    
   it('should be able to return it\'s owned keys amount', inject(
     function(localStorageService, $window) {
 

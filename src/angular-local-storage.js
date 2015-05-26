@@ -383,7 +383,7 @@ angularLocalStorage.provider('localStorageService', function() {
 
       return scope.$watch(key, function(newVal) {
         addToLocalStorage(lsKey, newVal);
-      }, isObject(scope[key]));
+      }, isObject(value));
     };
 
     // Return localStorageService.length
